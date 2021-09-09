@@ -22,13 +22,16 @@ class SearchIndex extends Component {
         'protective sheets', 
         'index cards',
       ], 
-      items: '',
+      items: [],
     };
     // this.searchFunction = this.bind(this);
   }
   
   searchFunction=(e) => {
-    this.setState({ items: e.target.value });
+    
+    const term = e.target.value
+    const results = this.state.things.filter ((thing) => thing.includes(term))
+    this.setState({ items: results });
   } 
   
   filterArray = () => {
@@ -39,10 +42,10 @@ class SearchIndex extends Component {
      return (
        <div>
          <Input 
-            onChange = {(e) => this.searchFunction()}
+            onChange = {(e) => this.searchFunction(e)}
             placeholder='Search Here'
-            value={this.state.items} />
-         {/* <h3>Results: {this.state.things.filter.map}</h3> */}
+            />
+         <h3>Results: {this.state.items.join(", ")}</h3>
        </div>
      );
   }
