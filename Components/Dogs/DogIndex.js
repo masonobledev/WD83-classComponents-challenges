@@ -1,32 +1,40 @@
 import React, { Component } from 'react';
 
 class DogIndex extends React.Component {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = { 
-            photos: []
+            photos: [],
+            isLoaded: false
         };
     }
   
     componentDidMount() {
         const apiUrl = 'https://dog.ceo/api/breeds/image/random';
         fetch(apiUrl)
-        .then(response => response.json())
-        .then(json => this.setState({ photos: json.data }));
+        .then(res => res.json())
+        .then(({ dogPhotos }) => {
+            this.setState({ 
+                isLoaded: true,
+                photos: dogPhotos, 
+            })
+        });
+
     }
-    
+
   render() {
     return (
         <div>
             <h1>my Component has Mounted, Check the browser 'console'</h1>
             {
-                this.state.photos.length === 0
+                this.photos.length === 0
                 ? 'Loading dog pics...'
-                : this.state.photos.map(photos => (
-                <figure key={photos.id}>
-                <img src={photos.avatar} />
+                : this.state.photos.map((photo) => (
+                <figure key={photo.id}>
+                <img src={this.photo.avatar} />
+                {/* {photo.avatar} */}
                 <figcaption>
-                {photos.name}
+                {photo.name}
                 </figcaption>
                 </figure>
                 ))
